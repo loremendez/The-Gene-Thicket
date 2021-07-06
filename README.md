@@ -85,16 +85,11 @@ A running installation of Anaconda. If you haven't installed Anaconda yet, you c
         pip install --upgrade pip
         pip list  # show packages installed within the virtual environment
 
-        pip install torch
-        pip install numpy pandas matplotlib seaborn networkx argparse #TCDF
+        pip install torch #neural network
+        pip install numpy pandas matplotlib seaborn networkx cdlib argparse #network analysis
         pip install scikit-learn statsmodels numba python-igraph leidenalg scanpy #scanpy
         pip install scvelo #scvelo
 
-        conda install r-base #R
-        #install following packages in R console:
-        install.packages("igraph")
-        install.packages("linkcomm")
-        install.packages("rnetcarto")
         pip install jupyterlab
         ```
 
@@ -109,9 +104,8 @@ jupyter-lab
 <!-- References -->
 ## References
 <a id="1">[1]</a>
-Dataset by Chemkaeva, Daria (@LSIND) “Gemstones”.
-Last updated: 2020-04-27.
-Link: [https://www.kaggle.com/lsind18/gemstones-images](https://www.kaggle.com/lsind18/gemstones-images)
+Based on TCDF algorithm by [`Nauta et. al, 2019`](https://www.mdpi.com/2504-4990/1/1/19).
+Link: [`TCDF github`](https://github.com/M-Nauta/TCDF)
 
 
 <!-- CONTACT -->
