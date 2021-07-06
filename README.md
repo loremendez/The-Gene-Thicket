@@ -11,7 +11,7 @@ Inference of gene regulatory networks (GRN's) through convolutional neural netwo
 <br />
 <p align="center">
 
-<h3 align="center">Inference of gene regulatory networks (GRN's) through convolutional neural networks (CNN's).</h3>
+<h3 align="center">GRN through causal CNN's</h3>
 
 ***  <a href="https://github.com/loremendez/Gemstones">
     <p align="center">
@@ -114,5 +114,3 @@ Link: [`TCDF github`](https://github.com/M-Nauta/TCDF)
 Lorena Mendez - [LinkedIn](https://www.linkedin.com/in/lorena-mendezg/?originalSubdomain=de) - lorena.mendez@tum.de
 
 Take a look into my [other](https://github.com/loremendez) projects!
-# Gemstones
-Gemstone Classification
