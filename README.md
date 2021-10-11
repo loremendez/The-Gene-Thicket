@@ -36,7 +36,12 @@ Inference of gene regulatory networks (GRN's) using temporal convolutional neura
 <!-- ABOUT THE PROJECT -->
 ## About The Gene Thicket
 
-The Gene Thicket is my Master's thesis project. The inference of gene regulatory networks (GRNs) has been an area of research for more than twenty years! There exist a lot of approaches to infer GRNs, but the gene thicket aim is also to predict future gene expressions. GRNs are an amazing challenge in Computational Biology since they relate to many different things, such as perturbations, trajectory inference, RNA velocity and much more! We can also be creative and incorporate different types of data.   
+The Gene Thicket is my Master's thesis project. The gene thicket is a deep learning-based model, which goal is to build gene regulatory networks that are capable to predict future gene expressions.    
+
+**What is so amazing about of gene regulatory networks?**
+Gene Regulatory Networks are graphs that describe the regulatory process of a system. Their nodes are genes and their edges represent the regulatory relationship between two genes. The edges have a direction (which gene regulates which other gene), a sign (activation or repression) and a weight (strength of the relationship). If we understand how a system works, then we can develop better products to help people, animals and every other living organism.
+
+The inference of gene regulatory networks (GRNs) has been an area of research for more than twenty years! GRNs are an amazing challenge in Computational Biology since they relate to many different things, such as perturbations, trajectory inference, RNA velocity and much more! We can also be creative and incorporate different types of data.
 
 ### Built With
 
