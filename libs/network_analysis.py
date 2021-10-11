@@ -3,6 +3,7 @@ import pandas as pd
 import networkx as nx
 import matplotlib.pyplot as plt
 from cdlib import algorithms
+from sklearn.metrics import auc, f1_score, precision_recall_curve, roc_curve
 
 #The idea of the scores and plots was taken from CellOracle https://morris-lab.github.io/CellOracle.documentation/
 #Code by Lorena Mendez
@@ -47,7 +48,8 @@ def plot_graph(df, type='links', figsize=(5,5), node_size=1000, font_size=8, sav
     #draw edges
     nx.draw_networkx_edges(DG, pos, edge_color = colors, width=weights)
     #draw nodes
-    nx.draw_networkx_nodes(DG, pos, node_size=node_size, node_color = np.array([(0,0.95,0,0.3)]))
+    nodes = nx.draw_networkx_nodes(DG, pos, node_size=node_size, node_color = np.array([(0,0,0,0)]))
+    nodes.set_edgecolor('black')
     #draw labels
     nx.draw_networkx_labels(DG, pos, font_size=font_size, font_family="sans-serif")
 
@@ -76,11 +78,18 @@ def scores(tf_target_df):
         DG.add_edge(u[0], u[1])
 
     scores = pd.DataFrame()
-    genes = nx.eigenvector_centrality(DG).keys()
+    
+    genes = nx.in_degree_centrality(DG).keys()
+        
     scores["genes"] = genes
-    scores["eigenvector_centrality"] = [nx.eigenvector_centrality(DG)[gen] for gen in genes]
-    scores["betweenness_centrality"] = [nx.betweenness_centrality(DG)[gen] for gen in genes]
-    scores["closeness_centrality"] = [nx.closeness_centrality(DG)[gen] for gen in genes]
+    
+    try:
+        scores["eigenvector_centrality"] = [nx.eigenvector_centrality(DG)[gen] for gen in genes]
+        scores["betweenness_centrality"] = [nx.betweenness_centrality(DG)[gen] for gen in genes]
+        scores["closeness_centrality"] = [nx.closeness_centrality(DG)[gen] for gen in genes]
+    except:
+        pass
+        
     scores["in_degree_centrality"] = [nx.in_degree_centrality(DG)[gen] for gen in genes]
     scores["out_degree_centrality"] = [nx.out_degree_centrality(DG)[gen] for gen in genes]
     scores["all_degree_centrality"] = [nx.degree_centrality(DG)[gen] for gen in genes]
@@ -129,7 +138,7 @@ def plot_scores(scores, n_genes=50, savefig=None):
         if not savefig is None:
             #os.makedirs(save, exist_ok=True)
             #path = os.path.join(save, f"ranked_values_in_{links.name}_{value}_{links.thread_number}_in_{cluster}.{settings['save_figure_as']}")
-            fig.savefig(savefig, transparent=True)
+            plt.savefig(savefig, transparent=True)
 
 
 def _cartography_analysis(tf_target_df):
@@ -260,3 +269,149 @@ def _annotate_gene(x, y, label, x_shift=0.05, y_shift=0.05, args={}):
     arrow_dict = {"width": 0.5, "headwidth": 0.5, "headlength": 1, "color": "black"}
 
     plt.annotate(label, xy=(x, y), xytext=(x+x_shift, y+y_shift), arrowprops=arrow_dict, **args_annot)
+
+    
+def evaluation(links, ref, tfs, target_genes):
+    
+    #possible edges
+    possible_edges=[]
+    
+    for tf in tfs:
+        for gene in target_genes:
+            if gene != tf:
+                possible_edges.append((tf, gene))
+    
+    #true edges
+    true_edges = list(zip(ref['Gene1'].values,
+                          ref['Gene2'].values))
+    
+    #predicted edges
+    predicted_edges = list(zip(links['TF'].values,
+                               links['target'].values))
+    
+    #compute true binary labels 
+    y_true=[]
+    for el in possible_edges:
+        if el in true_edges:
+            y_true.append(1)
+        else:
+            y_true.append(0)
+    
+    #compute predicted binary labels
+    y_pred=[]
+    for el in possible_edges:
+        if el in predicted_edges:
+            y_pred.append(1)
+        else:
+            y_pred.append(0)
+    
+    #compute metrics
+    prec, recall, _ = precision_recall_curve(y_true, y_pred, pos_label=1)
+    fpr, tpr, _ = roc_curve(y_true, y_pred, pos_label=1)
+    
+    fscore = f1_score(y_true, y_pred)
+    AUCPR = auc(recall, prec)
+    AUROC = auc(fpr, tpr)
+    
+    df = pd.DataFrame({'fscore':[fscore], 'AUCPR':[AUCPR], 'AUROC':[AUROC]})
+    df = df.round(2)
+    return df
+    
+# def full_graph(links):
+#     DG = nx.DiGraph()
+    
+#     for i, u in enumerate(np.array(links)):
+#         DG.add_edge(u[0], u[2])
+    
+#     for tf in links['TF'].unique():
+#         for gene in links['target'].unique():
+#             if nx.has_path(DG,tf,gene):
+#                 DG.add_edge(tf,gene)
+#     return DG
+
+# def intersection(G,H):
+#     R=nx.create_empty_copy(G)
+#     if G.number_of_edges() <= H.number_of_edges():
+#         edges=G.edges()
+#         for e in edges:
+#             if H.has_edge(*e):
+#                 R.add_edge(*e)
+#     else:
+#         edges=H.edges()
+#         for e in edges:
+#             if G.has_edge(*e):
+#                 R.add_edge(*e)
+                
+#     return R
+    
+# def evaluation(links, ref, possible_edges):
+    
+#     temp_df = links.copy()
+#     temp_df['abs_weight'] = abs(temp_df['importance'])
+#     temp_df = temp_df.sort_values(by='abs_weight', ascending=False).reset_index(drop=True)
+    
+#     #ground truth graph
+#     TG = nx.DiGraph()
+#     for i, u in enumerate(np.array(ref)):
+#         TG.add_edge(u[0], u[1])
+    
+    
+#     all_prec = []
+#     all_recall = []
+#     all_TPR = []
+#     all_FPR = []
+    
+#     for row in np.arange(temp_df.shape[0]):
+#         df = temp_df[:row+1]
+        
+#         #learnt graph
+#         LG = nx.DiGraph()
+#         for i, u in enumerate(np.array(df)):
+#             LG.add_edge(u[0], u[2])
+        
+#         TP = intersection(TG,LG).number_of_edges() #true positives
+#         FP = len(LG.edges() - TG.edges()) #false positives
+#         FN = len(TG.edges() - LG.edges()) #false negatives
+#         TN = possible_edges - (TP + FP + FN) #true negatives
+#         precision =  TP /(TP + FP)
+#         recall = TP /(FN + TP)
+#         TPR = TP /(FN + TP) #sensitivity
+#         FPR = FP /(FP + TN) #false positive rate
+        
+#         all_prec.append(precision)
+#         all_recall.append(recall)
+#         all_TPR.append(TPR)
+#         all_FPR.append(FPR)
+    
+#     F1 = (2*TP)/(2*TP + 2*FN + FP) #F1 score
+#     AUCPR = auc(all_recall, all_prec)
+#     AUROC = auc(all_FPR, all_TPR)
+    
+    #full graph
+    #FG = full_graph(links)
+    
+    ################ GROUND TRUTH GRAPH ##########################
+#     TP = intersection(TG,LG).number_of_edges() #true positives
+#     FP = len(LG.edges() - TG.edges()) #false positives
+#     FN = len(TG.edges() - LG.edges()) #false negatives
+#     TN = possible_edges - (TP + FP + FN) #true negatives
+#     precision =  TP /(TP + FP)
+#     recall = TP /(FN + TP)
+#     TPR = TP /(FN + TP) #sensitivity
+#     FPR = FP /(FP + TN) #false positive rate
+#     F1 = (2*TP)/(2*TP + 2*FN + FP) #F1 score
+    
+    ################ FULL GRAPH #########################
+#     TP_ = intersection(FG,LG).number_of_edges()
+#     FP_ = len(LG.edges() - FG.edges()) #false positives
+#     FN_ = len(FG.edges() - LG.edges()) #false negatives
+#     TN_ = possible_edges - (TP_ + FP_ + FN_)
+#     precision_ = TP_ /(TP_ + FP_)
+#     recall_ = TP_ /(FN_ + TP_)
+#     F1_ = (2*TP_)/(2*TP_ + 2*FN_ + FP_) #F1 score
+    
+#     df = pd.DataFrame({'precision':[precision], 'recall':[recall], 
+#                        'TPR':[TPR], 'FPR':[FPR],'F1-score':[F1],
+#                        'AUCPR':[AUCPR], 'AUROC':[AUROC]})
+#     df = df.round(2)
+#     return df

@@ -7,7 +7,7 @@ from scipy.sparse import csr_matrix
 from sklearn.preprocessing import normalize
 
 
-def pseudotime_to_velocity(adata):
+def pseudotime_to_velocity(adata, time_key='pseudotime'):
     """
     Estimates velocity from pseudotime data.
 
@@ -31,7 +31,7 @@ def pseudotime_to_velocity(adata):
     time=[]
     for i in np.arange(n_cells):
         neigh = col_ind[row_ind == i] #list of neighbors
-        time.append((adata.obs['pseudotime'][neigh] - adata.obs['pseudotime'][i]).values) #time differences
+        time.append((adata.obs[time_key][neigh] - adata.obs[time_key][i]).values) #time differences
     time = np.array(time).flatten()
 
     #estimate weights
@@ -52,3 +52,37 @@ def pseudotime_to_velocity(adata):
 
     #save velocity estimation
     adata.layers["velocity"] = velocity
+
+def random_walks(adata, num_walks=100, time_key='pseudotime', seed=0, n_steps=100, n_neighbors=30, starting_cells=None):
+    """
+    Generates different gene expression matrices using random walks. 
+    
+    :params adata: AnnData.
+    :params num_walks: integer. Number of random walks (dataframes).
+    :params time_key: string. Name of the column in adata.obs that contains the time. 
+    :params seed: random seed.
+    :params n_steps: integer. Number of steps in the random walk.
+    :params n_neighbors: integer. Number of neighbors in which the cell can transition.
+    :params starting_cells: list of integers. Number of cells from which the random walk will begin.
+    :returns gem: dictionary with random-walk dataframes sorted by time.
+    """
+    np.random.seed(seed)
+    
+    n_cells = adata.shape[0]
+    
+    #choose starting cells
+    if starting_cells is None:
+        starting_cells = np.random.choice(adata.shape[0], num_walks, replace=False)
+    
+    #generate different expression matrices and sort them according to time
+    gem={}
+    for i in np.arange(num_walks):
+        cells = scv.utils.get_cell_transitions(adata, n_steps=n_steps, n_neighbors=n_neighbors, starting_cell=starting_cells[i])
+        bool_var = np.isin(np.arange(n_cells), cells)
+        gem_temp = adata[bool_var]#.to_df()
+        p_sort = gem_temp.obs.sort_values(by=time_key)
+        p_cells = list(p_sort[p_sort[time_key].isna() == False].index) 
+        gem[i] = gem_temp.to_df().loc[p_cells] #datasets are sorted by pseudotime
+    
+    return gem
+    
