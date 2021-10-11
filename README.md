@@ -8,17 +8,8 @@ Inference of gene regulatory networks (GRN's) using temporal convolutional neura
 -->
 
 <!-- PROJECT LOGO -->
-<br />
-<p align="center">
 
-<h3 align="center">GRN through causal CNN's</h3>
-
-***  <a href="https://github.com/loremendez/Gemstones">
-    <p align="center">
-      <img src="Resources/Images/sample1.jpg" width="600">
-    </p>
-  </a>
-</p> ***
+![Screenshot from 2021-08-21 18-29-16](https://user-images.githubusercontent.com/62608007/136803016-a54437b9-6268-4d24-b92a-148d8533827e.png)
 
 
 <!-- TABLE OF CONTENTS -->
