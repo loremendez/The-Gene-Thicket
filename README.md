@@ -1,5 +1,5 @@
-# Causal-CNN
-Inference of gene regulatory networks (GRN's) through convolutional neural networks (CNN's).
+# The Gene Thicket
+Inference of gene regulatory networks (GRN's) using temporal convolutional neural networks (CNN's).
 
 <!-- PROJECT SHIELDS -->
 <!--
