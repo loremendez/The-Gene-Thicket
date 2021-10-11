@@ -7,23 +7,16 @@ __pycache__/
 *.so
 
 #Folders
-beeline_data/
-data/
-figures/
-inputs/
 Plots/
-libs_good/
-Results_arboreto/
-Results_gene_thicket/
-Results_sincerities/
-Results_TCDF/
-saved_links_loss_pancreas/
-saved_models/
-saved_models_pancreas/
 sincerities_data/
 TCDF_demo_data/
 EDA/
-
+Analysis_beeline_data/beeline_data/
+Analysis_beeline_data/Results/
+Analysis_Pancreas/data/
+Analysis_Pancreas/inputs/
+Analysis_Pancreas/saved_links_loss_pancreas/
+Analysis_Pancreas/saved_models_pancreas/
 
 # Distribution / packaging
 .Python
