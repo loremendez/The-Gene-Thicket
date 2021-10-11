@@ -15,6 +15,13 @@ Plots/
 libs_good/
 Results_arboreto/
 Results_gene_thicket/
+Results_sincerities/
+Results_TCDF/
+saved_links_loss_pancreas/
+saved_models/
+saved_models_pancreas/
+sincerities_data/
+TCDF_demo_data/
 
 
 # Distribution / packaging
