@@ -6,6 +6,17 @@ __pycache__/
 # C extensions
 *.so
 
+#Folders
+beeline_data/
+data/
+figures/
+inputs/
+Plots/
+libs_good/
+Results_arboreto/
+Results_gene_thicket/
+
+
 # Distribution / packaging
 .Python
 build/
