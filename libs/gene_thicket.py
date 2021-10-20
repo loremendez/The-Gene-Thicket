@@ -233,6 +233,10 @@ def findcauses(target_name, tfs_name, gem, cuda=False, epochs=1000, kernel_size=
     
     causeswithdelay=[]
     
+    #for beeline_data
+    #torch.save(model.state_dict(), './saved_models/' + target_name + '.pt')
+    
+    #for pancreas_data
     #torch.save(model.state_dict(), './saved_models_pancreas/' + target_name + '.pt')
 
     return names_validated, causeswithdelay, realloss, scores_all, weights, scores_validated
