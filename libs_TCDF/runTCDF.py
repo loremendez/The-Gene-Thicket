@@ -3,7 +3,7 @@ import torch
 import numpy as np
 import pandas as pd
 import networkx as nx
-import libs_good.TCDF as TCDF
+import libs_TCDF.TCDF as TCDF
 import matplotlib.pyplot as plt
 
 def runTCDF(gem, tf_target_pairs=None, cuda=False, epochs=1000, kernel_size=4, levels=1, lr=0.01, optimizername='Adam', seed=1111, dilation_c=4, significance=0.8, log_interval=500):

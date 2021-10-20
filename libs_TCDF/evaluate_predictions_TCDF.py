@@ -2,7 +2,7 @@ import TCDF
 import argparse
 import torch
 import torch.optim as optim
-from model import ADDSTCN
+from libs_TCDF.model import ADDSTCN
 import pandas as pd
 import numpy as np
 import networkx as nx

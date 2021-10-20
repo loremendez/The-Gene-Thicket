@@ -3,10 +3,10 @@ import torch
 import numpy as np
 import pandas as pd
 import networkx as nx
-import libs.module as module
+import libs.gene_thicket as gene_thicket
 import matplotlib.pyplot as plt
 
-def runmodule(gem, tf_target_pairs=None, cuda=False, epochs=1000, kernel_size=4, levels=1, lr=0.01, optimizername='Adam', seed=1111, dilation_c=4, significance=0.8, log_interval=500, patience=20):
+def run_gene_thicket(gem, tf_target_pairs=None, cuda=False, epochs=1000, kernel_size=4, levels=1, lr=0.01, optimizername='Adam', seed=1111, dilation_c=4, significance=0.8, log_interval=500, patience=20):
     """Loops through all variables in a dataset and return the discovered causes, time delays, losses, attention scores and variable names."""
     
     if torch.cuda.is_available():
@@ -23,7 +23,7 @@ def runmodule(gem, tf_target_pairs=None, cuda=False, epochs=1000, kernel_size=4,
             idx = gem.columns.get_loc(gene)
             tfs_name = tf_target_pairs[gene]
             if tfs_name != []:
-                causes, causeswithdelay, realloss, scores, weights, scores_validated = module.findcauses(target_name=gene, tfs_name=tfs_name, gem=gem, cuda=cuda, epochs=epochs, kernel_size=kernel_size, layers=levels, log_interval=log_interval, lr=lr, optimizername=optimizername, seed=seed, dilation_c=dilation_c, significance=significance, patience=patience)
+                causes, causeswithdelay, realloss, scores, weights, scores_validated = gene_thicket.findcauses(target_name=gene, tfs_name=tfs_name, gem=gem, cuda=cuda, epochs=epochs, kernel_size=kernel_size, layers=levels, log_interval=log_interval, lr=lr, optimizername=optimizername, seed=seed, dilation_c=dilation_c, significance=significance, patience=patience)
                 alldelays.update(causeswithdelay)
                 allreallosses[idx]=realloss
                 
@@ -39,7 +39,7 @@ def runmodule(gem, tf_target_pairs=None, cuda=False, epochs=1000, kernel_size=4,
             idx = gem.columns.get_loc(gene)
             features = target_genes.copy()
             features.remove(gene)
-            causes, causeswithdelay, realloss, scores, weights, scores_validated = module.findcauses(target_name=gene, tfs_name=features, gem=gem, cuda=cuda, epochs=epochs, kernel_size=kernel_size, layers=levels, log_interval=log_interval, lr=lr, optimizername=optimizername, seed=seed, dilation_c=dilation_c, significance=significance, patience=patience)
+            causes, causeswithdelay, realloss, scores, weights, scores_validated = gene_thicket.findcauses(target_name=gene, tfs_name=features, gem=gem, cuda=cuda, epochs=epochs, kernel_size=kernel_size, layers=levels, log_interval=log_interval, lr=lr, optimizername=optimizername, seed=seed, dilation_c=dilation_c, significance=significance, patience=patience)
             
             temp_df = pd.DataFrame({'TF':causes, 'importance':scores_validated})
             temp_df['target'] = str(gene)

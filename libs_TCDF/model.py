@@ -1,6 +1,6 @@
 import torch
 import numpy as np
-from libs_good.depthwise import DepthwiseNet
+from libs_TCDF.depthwise import DepthwiseNet
 
 class ADDSTCN(torch.nn.Module):
     def __init__(self, input_size, num_levels, kernel_size, cuda, dilation_c):

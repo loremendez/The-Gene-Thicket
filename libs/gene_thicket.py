@@ -4,7 +4,7 @@ import pandas as pd
 import numpy as np
 import heapq
 import copy
-from libs.model import LaRed
+from libs.causal_cnn import LaRed
 from libs.earlystop import EarlyStopping
 
 def preparedata(target_name, tfs_name, gem):

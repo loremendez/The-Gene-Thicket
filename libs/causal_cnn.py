@@ -58,7 +58,7 @@ class DepthwiseNet(nn.Module):
 #Depthwise network with self-attention and pointwise convolution 
 class LaRed(torch.nn.Module):
     def __init__(self, input_size, num_levels, kernel_size, cuda, dilation_c):
-        super(ADDSTCN, self).__init__()
+        super(LaRed, self).__init__()
 
         self.dwn = DepthwiseNet(input_size, num_levels, kernel_size=kernel_size, dilation_c=dilation_c)
         self.pointwise = torch.nn.Conv1d(input_size, 1, 1)

@@ -4,7 +4,7 @@ import pandas as pd
 import numpy as np
 import heapq
 import copy
-from libs_good.model import ADDSTCN
+from libs_TCDF.model import ADDSTCN
 
 def preparedata(target_name, tfs_name, gem):
     '''
