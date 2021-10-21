@@ -48,7 +48,7 @@ The inference of gene regulatory networks (GRNs) has been an area of research fo
 
 * [Anaconda 4.10.1](https://www.anaconda.com/)
 * [Python 3.9](https://www.python.org/downloads/release/python-380/)
-* [TensorFlow 2.5](https://www.tensorflow.org/tutorials/quickstart/beginner)
+* [Pytorch 1.9](https://pytorch.org/blog/pytorch-1.9-released/)
 
 <!-- GETTING STARTED -->
 ## Getting Started
@@ -85,7 +85,6 @@ A running installation of Anaconda. If you haven't installed Anaconda yet, you c
         pip install torch #neural network
         pip install numpy pandas matplotlib seaborn networkx cdlib argparse #network analysis
         pip install scikit-learn statsmodels numba python-igraph leidenalg scanpy #scanpy
-        pip install scvelo #scvelo
 
         pip install jupyterlab
         ```
@@ -93,10 +92,19 @@ A running installation of Anaconda. If you haven't installed Anaconda yet, you c
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-Open Jupyter-lab and open the notebook [`Gemstones.ipynb`](https://github.com/loremendez/Gemstones/blob/main/Gemstones.ipynb)
+The first thing to do is download the curated and synthetic data from [`Pratapa et. al, 2020`](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7098173/)
+
+Open Jupyter-lab and open the notebook [`Run_Gene_Thicket.ipynb`](https://github.com/loremendez/The-Gene-Thicket/blob/main/Analysis_beeline_data/Run_Gene_Thicket.ipynb)
 ```sh
 jupyter-lab
 ```
+To benchmark our method, we ran [`Genie3`](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0012776), [`GRNBoost2`](https://academic.oup.com/bioinformatics/article/35/12/2159/5184284?login=true), [`TCDF`](https://www.mdpi.com/2504-4990/1/1/19) and [`Sincerities`](https://academic.oup.com/bioinformatics/article/34/2/258/4158033?login=true).
+
+To run Genie3 and GRNBoost, you need to install the environment: [`arboreto_env.yml`](https://github.com/loremendez/The-Gene-Thicket/blob/main/arboreto_env.yml). To run Sincerities, you need to install the environment: [`sincerities_env.yml`](https://github.com/loremendez/The-Gene-Thicket/blob/main/sincerities_env.yml). TCDF runs with gene_thicket_env, but you need to download the py files available on [`TCDF github`](https://github.com/M-Nauta/TCDF).
+
+Run the models first, then the Analysis that shows a comparison between the models. You can also take a look at particular examples in the rest of the notebooks.
+
+To test The Gene Thicket on real data, we selected the Pancreas dataset that it is integrated in [`scvelo`](https://scvelo.readthedocs.io/scvelo.datasets.pancreas/). To run this analysis, you need to follow the notebooks for the Pancreas Analysis and download the [`SCENIC`](https://www.nature.com/articles/s41596-020-0336-2) files and cis-target databases that are indicated in the notebooks.
 
 <!-- References -->
 ## References
