@@ -17,7 +17,7 @@ Inference of gene regulatory networks (GRN's) using temporal convolutional neura
   <summary><h2 style="display: inline-block">Table of Contents</h2></summary>
   <ol>
     <li>
-      <a href="#about-the-project">About The Project</a>
+      <a href="#about-the-project">About The Gene Thicket</a>
     </li>
     <li>
       <a href="#getting-started">Getting Started</a>
@@ -64,12 +64,12 @@ A running installation of Anaconda. If you haven't installed Anaconda yet, you c
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/loremendez/Gemstones.git
+   git clone https://github.com/loremendez/The-Gene-Thicket.git
    ```
 2. Install the environment <br>
-    You can do it either by loading the [`YML`](https://github.com/loremendez/Gemstones/blob/main/conda_environment.yml) file
+    You can do it either by loading the [`YML`](https://github.com/loremendez/The-Gene-Thicket/blob/main/gene_thicket_env.yml) file
     ```sh
-    conda env create -f conda_environment.yml
+    conda env create -f gene_thicket_env.yml
     ```
     or step by step
     1. Create and activate the environment
