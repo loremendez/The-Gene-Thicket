@@ -9,8 +9,9 @@ import matplotlib.pyplot as plt
 def run_gene_thicket(gem, tf_target_pairs=None, cuda=False, epochs=1000, kernel_size=4, levels=1, lr=0.01, optimizername='Adam', seed=1111, dilation_c=4, significance=0.8, log_interval=500, patience=20):
     """Loops through all variables in a dataset and return the discovered causes, time delays, losses, attention scores and variable names."""
     
-    if torch.cuda.is_available():
-        cuda=True
+    #if cuda == True:
+    #    if torch.cuda.is_available():
+    #        cuda=True
 
     alldelays = dict()
     allreallosses=dict()
